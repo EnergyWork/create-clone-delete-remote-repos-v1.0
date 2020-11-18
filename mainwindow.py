@@ -3,7 +3,7 @@ import os
 import tkinter as tk
 import tkinter.filedialog as fd
 from tkinter import messagebox
-from tkinter.ttk import *
+import tkinter.ttk as ttk
 
 import pygit2
 import github
@@ -15,32 +15,32 @@ class MainWindow(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
-        self.lbl_repos_name = Label(master=self, text='Repository name')
+        self.lbl_repos_name = ttk.Label(master=self, text='Repository name')
         self.lbl_repos_name.grid(column=0, row=0, sticky='w', padx=5, pady=5)
 
-        self.cbox_repository = Combobox(master=self,width=47)
+        self.cbox_repository = ttk.Combobox(master=self,width=47)
         self.cbox_repository.grid(column=0, row=1, sticky='w', padx=5, pady=5)
 
         self.layout_h = tk.Frame(master=self)
         
         self.bl_clone_it = tk.BooleanVar()
-        self.chkbtn_clone_it = Checkbutton(master=self.layout_h, text='Clone it?', variable=self.bl_clone_it, onvalue=True, offvalue=False, command=self.clone_it)
+        self.chkbtn_clone_it = ttk.Checkbutton(master=self.layout_h, text='Clone it?', variable=self.bl_clone_it, onvalue=True, offvalue=False, command=self.clone_it)
         self.chkbtn_clone_it.grid(column=0, row=0)
 
-        self.btn_choose_dir = Label(master=self.layout_h, text='choose a directory', font="Verdana 8 underline", foreground='blue', cursor='hand2')
+        self.btn_choose_dir = ttk.Label(master=self.layout_h, text='choose a directory', font="Verdana 8 underline", foreground='blue', cursor='hand2')
         self.btn_choose_dir.bind('<Button-1>', self.choose_dir)
         self.btn_choose_dir.bind('<Enter>', self.on_enter)
         self.btn_choose_dir.bind('<Leave>', self.on_leave)
 
         self.layout_h.grid(column=0, row=2, sticky='w', padx=5, pady=5)
 
-        self.ent_clone_to = Entry(master=self, width=50, state=tk.DISABLED)
+        self.ent_clone_to = ttk.Entry(master=self, width=50, state=tk.DISABLED)
         self.ent_clone_to.grid(column=0, row=3, sticky='w', padx=5, pady=5)
 
-        self.btn_done = Button(master=self, text='Create repository', command=self.done)
+        self.btn_done = ttk.Button(master=self, text='Create repository', command=self.done)
         self.btn_done.grid(column=0, row=4, padx=5, pady=5)
 
-        self.lbl_who = Label(master=self, text='Not authenticated', foreground='gray')
+        self.lbl_who = ttk.Label(master=self, text='Not authenticated', foreground='gray')
         self.lbl_who.grid(column=0, row=5, padx=0, pady=0)
 
 
@@ -100,7 +100,7 @@ class MainWindow(tk.Frame):
                 clone_path = self.ent_clone_to.get()
                 clone_path = os.path.join(clone_path, repo_name)
                 try:
-                    cloned = pygit2.clone_repository(repo.git_url, clone_path)
+                    _ = pygit2.clone_repository(repo.git_url, clone_path)
                     #flag2 = True
                 except Exception as e:
                     messagebox.showerror('ERROR', f"{e.__class__}")
@@ -112,7 +112,7 @@ class MainWindow(tk.Frame):
                     clone_path = self.ent_clone_to.get()
                     clone_path = os.path.join(clone_path, repo_name)
                     try:
-                        cloned = pygit2.clone_repository(repo.git_url, clone_path)
+                        _ = pygit2.clone_repository(repo.git_url, clone_path)
                         messagebox.showinfo('Info', f'Cloned to {clone_path}')
                     except Exception as e:
                         messagebox.showerror('ERROR', f"{e.__class__}")
