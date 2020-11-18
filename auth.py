@@ -5,8 +5,10 @@ from tkinter.ttk import *
 import github
 from github import Github
 
+
 class Auth(tk.Toplevel):
     parent = None
+
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent

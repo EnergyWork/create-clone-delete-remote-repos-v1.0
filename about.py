@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.ttk import *
 
+
 class About(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)

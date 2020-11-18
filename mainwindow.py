@@ -12,6 +12,7 @@ from github import Github
 class MainWindow(tk.Frame):
     choosed_program = 0
     parent = None
+
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
@@ -42,7 +43,6 @@ class MainWindow(tk.Frame):
 
         self.lbl_who = ttk.Label(master=self, text='Not authenticated', foreground='gray')
         self.lbl_who.grid(column=0, row=5, padx=0, pady=0)
-
 
     def clone_it(self):
         if self.bl_clone_it.get():
@@ -86,8 +86,6 @@ class MainWindow(tk.Frame):
         self.cbox_repository['values'] = repos_list
 
     def ccrr(self):
-        #flag1 = False
-        #flag2 = False
         repo_name = self.cbox_repository.get()
         if not (repo_name and not repo_name.isspace()):
             messagebox.showerror('ERROR', 'Repository name field is empty!')
@@ -95,13 +93,11 @@ class MainWindow(tk.Frame):
         clone = self.bl_clone_it.get()
         try:
             repo = self.parent.github_account.get_user().create_repo(name=repo_name, homepage='https://github.com')
-            #flag1 = True
             if clone:
                 clone_path = self.ent_clone_to.get()
                 clone_path = os.path.join(clone_path, repo_name)
                 try:
                     _ = pygit2.clone_repository(repo.git_url, clone_path)
-                    #flag2 = True
                 except Exception as e:
                     messagebox.showerror('ERROR', f"{e.__class__}")
         except github.GithubException as e:
@@ -126,13 +122,13 @@ class MainWindow(tk.Frame):
         try:
             repo = self.parent.github_account.get_user().get_repo(repo_name)
             repo.delete()
-        except github.GithubException as e: # github.GithubException.UnknownObjectException: 404 {"message": "Not Found", "documentation_url": "https://docs.github.com/rest/reference/repos#get-a-repository"}
+        except github.GithubException as e:
             messagebox.showerror('Deleting error', f"Code: {e.status}\n{e.data['message']}")
         else:
             messagebox.showinfo('Success', 'success')
 
     def done(self):
-        if self.parent.github_account == None:
+        if self.parent.github_account is None:
             messagebox.showerror('ERROR', "You're not authenticated!\nMenu > Auth > insert you auth token")
             return
         if self.bl_clone_it.get():

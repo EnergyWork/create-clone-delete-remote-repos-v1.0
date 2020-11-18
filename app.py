@@ -3,11 +3,14 @@ import tkinter as tk
 from mainwindow import MainWindow
 from auth import Auth
 from about import About
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
 
 class App(tk.Tk):
     main_window = None
     github_account = None
     path_to_label_image = os.path.join(os.path.split(os.path.abspath(__file__))[0], 'angleicon.ico')
+
     def __init__(self):
         super().__init__()
         self.title('Simple repository manipulation')
@@ -53,6 +56,7 @@ class App(tk.Tk):
     def about_window(self):
         about_form = About(self)
         about_form.grab_set()
+
 
 if __name__ == "__main__":
     app = App()
